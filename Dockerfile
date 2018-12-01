@@ -48,8 +48,7 @@ RUN apt-get install -y \
   python-dev \
   python-pip \
   python3-dev \
-  python3-pip \
-  fonts-freefont
+  python3-pip
 
 # Removing documentation packages *after* installing them is kind of hacky,
 # but it only adds some overhead while building the image.
