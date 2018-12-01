@@ -12,21 +12,23 @@ RUN adduser \
   --disabled-password \
   "$USERNAME"
 
-RUN apt-get update
+RUN apt-get update && apt-get install -y apt-utils
 
+# install base utilities
 RUN apt-get install -y \
-  texlive-full \
+  gnupg \
   wget \
   git \
   make \
-  pandoc \
-  python-pygments \
   sudo \
   curl \
   git-core \
-  nodejs \
-  zlib1g-dev \
+  procps
+
+# install build toolchain
+RUN apt-get install -y \
   build-essential \
+  zlib1g-dev \
   libssl-dev \
   libreadline-dev \
   libyaml-dev \
@@ -35,12 +37,31 @@ RUN apt-get install -y \
   libxslt1-dev \
   libcurl4-openssl-dev \
   libffi-dev \
+  libmagickwand-dev
+
+# install texlive
+RUN apt-get install -y \
+  texlive-full
+
+# install document support
+RUN apt-get install -y \
+  imagemagick \
+  pandoc \
+  python-pygments
+
+# install database support
+RUN apt-get install -y \
   mysql-client \
   postgresql-client \
   default-libmysqlclient-dev \
-  libpq-dev \
-  libmagickwand-dev \
-  imagemagick \
+  libpq-dev
+
+# install nodejs
+RUN apt-get install -y \
+  nodejs
+
+# install python
+RUN apt-get install -y \
   virtualenvwrapper \
   python \
   python3 \
@@ -57,6 +78,7 @@ RUN \
   apt-get clean -y
 
 # Install RVM
+RUN curl -sSL https://rvm.io/mpapis.asc | gpg --no-tty --verbose --import -
 RUN curl -sSL https://get.rvm.io | bash -s stable --ruby
 
 # install latest ruby and bundler
