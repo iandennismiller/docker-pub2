@@ -1,4 +1,4 @@
-FROM debian:testing
+FROM debian:stretch
 
 ARG USERNAME=pub2
 ARG USERHOME=/home/pub2
@@ -34,11 +34,10 @@ RUN apt-get install -y \
   libxml2-dev \
   libxslt1-dev \
   libcurl4-openssl-dev \
-  python-software-properties \
   libffi-dev \
   mysql-client \
   postgresql-client \
-  libmysqlclient-dev \
+  default-libmysqlclient-dev \
   libpq-dev \
   libmagickwand-dev \
   imagemagick \
@@ -49,11 +48,12 @@ RUN apt-get install -y \
   python-dev \
   python-pip \
   python3-dev \
-  python3-pip
+  python3-pip \
+  fonts-freefont
 
 # Removing documentation packages *after* installing them is kind of hacky,
 # but it only adds some overhead while building the image.
-RUN
+RUN \
   apt-get --purge remove -y .\*-doc$ && \
   apt-get clean -y
 
