@@ -83,10 +83,11 @@ RUN curl -sSL https://get.rvm.io | bash -s stable --ruby
 
 # install latest ruby and bundler
 ENV RBENV_VERSION 2.5.1
-RUN rvm install 2.5.1 && \
+RUN bash -c "source /usr/local/rvm/scripts/rvm && \
+  rvm install 2.5.1 && \
   rvm use 2.5.1 && \
   rvm rubygems latest && \
-  gem install bundler
+  gem install bundler"
 
 # upgrade python pip
 RUN pip3 install -U pip
@@ -94,3 +95,9 @@ RUN pip3 install -U pip
 RUN pip3 install -U \
   virtualenv \
   virtualenvwrapper
+
+RUN bash -c "source /usr/local/rvm/scripts/rvm && \
+  gem install jekyll && \
+  gem install jekyll-sitemap"
+
+RUN pip3 install -U mr.bob pub2==0.1.6
