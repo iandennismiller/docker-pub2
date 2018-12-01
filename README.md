@@ -1,11 +1,11 @@
-# dockerfiles
+# Docker for Pub2
 
-Here are some Dockerfiles.
+This Dockerfile, based on `debian:testing`, can be used to render Pub2 websites.  The following are provided:
 
-Since Docker Hub does not have GitLab integration (as of the writing of this
-file), this repository is hosted both [on GitLab][gl] and [on GitHub][gh].
-
-
-[gl]: https://gitlab.com/aergus/dockerfiles
-[gh]: https://github.com/aergus/dockerfiles
+- apt install ruby
+- bundle install jekyll
+- apt install texlive-full
+- apt install pandoc
+- apt install python3
+- pip install pub2
 
