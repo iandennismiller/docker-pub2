@@ -1,9 +1,9 @@
 FROM debian:stretch
 
-ARG USERNAME=pub2
-ARG USERHOME=/home/pub2
+ARG USERNAME=application
+ARG USERHOME=/home/application
 ARG USERID=1000
-ARG USERGECOS=Pub2
+ARG USERGECOS=application
 
 RUN adduser \
   --home "$USERHOME" \
@@ -39,16 +39,6 @@ RUN apt-get install -y \
   libffi-dev \
   libmagickwand-dev
 
-# install texlive
-RUN apt-get install -y \
-  texlive-full
-
-# install document support
-RUN apt-get install -y \
-  imagemagick \
-  pandoc \
-  python-pygments
-
 # install database support
 RUN apt-get install -y \
   mysql-client \
@@ -78,14 +68,18 @@ RUN \
   apt-get clean -y
 
 # Install RVM
-RUN curl -sSL https://rvm.io/mpapis.asc | gpg --no-tty --verbose --import -
-RUN curl -sSL https://get.rvm.io | bash -s stable --ruby
+# RUN curl -sSL https://rvm.io/mpapis.asc | gpg --no-tty --verbose --import -
+RUN gpg --no-tty --verbose --keyserver hkp://pgp.mit.edu --recv-keys \
+  409B6B1796C275462A1703113804BB82D39DC0E3 \
+  7D2BAF1CF37B13E2069D6956105BD0E739499BDB
 
 # install latest ruby and bundler
-ENV RBENV_VERSION 2.5.1
+ENV RBENV_VERSION 2.6.0
+RUN curl -sSL https://get.rvm.io | bash -s stable --ruby
+
+# rvm install 2.6.0 && \
+# rvm use 2.6.0 && \
 RUN bash -c "source /usr/local/rvm/scripts/rvm && \
-  rvm install 2.5.1 && \
-  rvm use 2.5.1 && \
   rvm rubygems latest && \
   gem install bundler"
 
@@ -95,13 +89,3 @@ RUN pip3 install -U pip
 RUN pip3 install -U \
   virtualenv \
   virtualenvwrapper
-
-RUN bash -c "source /usr/local/rvm/scripts/rvm && \
-  gem install jekyll && \
-  gem install jekyll-sitemap"
-
-RUN pip3 install -U mr.bob pub2==0.1.6
-
-# upgrade pandoc
-RUN wget https://github.com/jgm/pandoc/releases/download/2.5/pandoc-2.5-1-amd64.deb
-RUN dpkg -i pandoc-2.5-1-amd64.deb

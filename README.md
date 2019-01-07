@@ -8,6 +8,12 @@ This Dockerfile, based on `debian:stretch`, can be used to render Pub2 websites.
 - pandoc
 - python3
 
+## Build image from Dockerfile
+
+```
+docker build -t pub2 .
+```
+
 ## Deploy image to hub
 
 ```
